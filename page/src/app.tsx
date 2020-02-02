@@ -92,6 +92,7 @@ export default class App extends React.Component<any, any> {
     } else {
       reason = 'Unknown reason'
     }
+    console.log(reason)
   }
   wsError(event) {
     console.log('server has error')

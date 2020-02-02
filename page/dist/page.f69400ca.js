@@ -31866,6 +31866,8 @@ function (_super) {
     } else {
       reason = 'Unknown reason';
     }
+
+    console.log(reason);
   };
 
   App.prototype.wsError = function (event) {
