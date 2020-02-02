@@ -1,0 +1,14 @@
+{
+  "name": "ws-monitor",
+  "version": "1.0.0",
+  "description": "websocket dectctor monitor",
+  "scripts": {
+    "dev": "cd ./page && yarn run dev",
+    "server":"cd ./server && node index.js",
+    "build": "cd ./page && yarn run build"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/xubaoshi/ws-monitor.git",
+  "author": "xubaoshi <948869516@qq.com>",
+  "license": "MIT"
+}

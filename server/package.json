@@ -1,0 +1,12 @@
+{
+  "name": "ws-monitor-server",
+  "version": "1.0.0",
+  "description": "websocket dectctor server",
+  "main": "index.js",
+  "repository": "https://github.com/xubaoshi/ws-monitor.git",
+  "author": "xubaoshi <948869516@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^7.2.1"
+  }
+}
