@@ -1,20 +1,18 @@
 const Websocket = require('ws')
 const wss = new Websocket.Server(
   {
-    port: 8080
+    port: 8080,
+    // 记录连接数
+    clientTracking: true
   },
   () => {
     console.log('server start')
   }
 )
-const clients = []
 wss.on('connection', client => {
-  clients.push(client)
+  console.log('clients num:', wss.clients.size)
   client.send('connect established')
-  setTimeout(() => {
-    console.log(client.push())
-  }, 2000)
-
+  console.log('connect established')
   client.on('message', msg => {
     console.log('server message:', msg)
     client.send(msg)
@@ -22,4 +20,13 @@ wss.on('connection', client => {
   client.on('close', msg => {
     console.log('server closed')
   })
+  client.on('error', msg => {
+    console.log('server has error')
+  })
+  setTimeout(() => {
+    client.emit('error', new Error('error occured'))
+  }, 5000)
+  setTimeout(() => {
+    client.close()
+  }, 10000)
 })
