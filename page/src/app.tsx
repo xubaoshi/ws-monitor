@@ -12,7 +12,8 @@ export default class App extends React.Component<any, any> {
     this.state = {
       ws: null,
       ip: '',
-      currentTab: '0'
+      currentTab: '0',
+      lockReconnect: false
     }
   }
   update() {
@@ -89,6 +90,7 @@ export default class App extends React.Component<any, any> {
       remark: event
     }).then(() => {
       this.update()
+      this.reconnect()
     })
   }
   wsError(event) {
@@ -100,6 +102,7 @@ export default class App extends React.Component<any, any> {
       remark: event
     }).then(() => {
       this.update()
+      this.reconnect()
     })
   }
   handleSend() {
@@ -119,6 +122,20 @@ export default class App extends React.Component<any, any> {
     this.setState({
       currentTab: val
     })
+  }
+  reconnect() {
+    const { lockReconnect, ip } = this.state
+    if (lockReconnect) return
+    this.setState({
+      lockReconnect: true
+    })
+    setTimeout(() => {
+      // 没连接上会一直重连，设置延迟避免请求过多
+      this.connect(ip)
+      this.setState({
+        lockReconnect: false
+      })
+    }, 2000)
   }
   render() {
     const { state } = this

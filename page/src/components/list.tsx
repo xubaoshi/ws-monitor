@@ -52,7 +52,7 @@ export default class List extends React.Component<any, any> {
           } />
           <Column title="type" dataIndex="type" key="type" />
           <Column title="reason" dataIndex="reason" key="reason" />
-          <Column title="remark" dataIndex="reason" key="remark" />
+          <Column title="remark" dataIndex="remark" key="remark" />
         </Table>
       </div>
     )

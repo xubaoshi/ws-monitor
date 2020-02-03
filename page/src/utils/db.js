@@ -28,7 +28,7 @@ const addTableData = data => {
     ss: date.format('SS'),
     reason: data.reason,
     type: data.type,
-    remark: JSON.stringify(data.remark)
+    remark: JSON.stringify([data.remark])
   })
   const addDate = date.add(1, 'day')
   db[tableName].add({
@@ -39,7 +39,7 @@ const addTableData = data => {
     ss: addDate.format('SS'),
     reason: data.reason,
     type: data.type,
-    remark: JSON.stringify(data.remark)
+    remark: JSON.stringify([data.remark])
   })
   const addDate4 = date.add(4, 'day')
   return db[tableName].add({
@@ -50,7 +50,7 @@ const addTableData = data => {
     ss: addDate4.format('SS'),
     reason: data.reason,
     type: data.type,
-    remark: JSON.stringify(data.remark)
+    remark: JSON.stringify([data.remark])
   })
 }
 
