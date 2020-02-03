@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "parcel index.html",
-    "build": "parcel index.js"
+    "build": "parcel index.html"
   },
   "description": "websocket dectctor monitor page",
   "main": "index.js",
@@ -21,6 +21,7 @@
     "@types/react": "^16.9.19",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4",
+    "sass": "^1.25.0",
     "typescript": "^3.7.5"
   }
 }

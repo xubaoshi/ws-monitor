@@ -4,50 +4,25 @@ import moment from 'moment'
 const dateBaseName = 'WebsocketDetectorDataBase'
 const tableName = 'detectorInfo'
 
-// db[tableName]
-//   .add({
-//     date: moment(new Date()).format('YYYY-MM-DD'),
-//     dateTime: new Date().getTime(),
-//     reason: 'close test',
-//     type: 'close'
-//   })
-//   .then(() => {
-//     db.table(tableName)
-//       .toArray()
-//       .then(arr => {
-//         console.log(arr)
-//       })
-//   })
+const createDb = () => {
+  let database = new Dexie(dateBaseName)
+  database.version(1).stores({
+    [tableName]: '++id,date,dateTime,reason,type'
+  })
+  return database
+}
 
-// db[tableName]
-//   .add({
-//     date: moment(new Date()).format('YYYY-MM-DD'),
-//     dateTime: new Date().getTime(),
-//     reason: 'error test',
-//     type: 'error'
-//   })
-//   .then(() => {
-//     db.table(tableName)
-//       .toArray()
-//       .then(arr => {
-//         console.log(arr)
-//       })
-//   })
-
-const db = new Dexie(dateBaseName)
-db.version(1).stores({
-  [tableName]: '++id,date,dateTime,reason,type'
-})
+let db = createDb()
 
 const clearDb = () => {
-  Dexie.delete('WebsocketDetectorDataBase')
+  return db[tableName].clear()
 }
 
 const addTableData = data => {
   const date = moment(new Date())
   db[tableName].add({
     date: date.format('YYYY-MM-DD'),
-    dateTime: new Date().getTime(),
+    dateTime: date.valueOf(),
     hh: date.format('HH'),
     mm: date.format('MM'),
     ss: date.format('SS'),
@@ -55,17 +30,32 @@ const addTableData = data => {
     type: data.type,
     remark: JSON.stringify(data.remark)
   })
+  const addDate = date.add(1, 'day')
+  db[tableName].add({
+    date: addDate.format('YYYY-MM-DD'),
+    dateTime: addDate.valueOf(),
+    hh: addDate.format('HH'),
+    mm: addDate.format('MM'),
+    ss: addDate.format('SS'),
+    reason: data.reason,
+    type: data.type,
+    remark: JSON.stringify(data.remark)
+  })
+  const addDate4 = date.add(4, 'day')
+  return db[tableName].add({
+    date: addDate4.format('YYYY-MM-DD'),
+    dateTime: addDate4.valueOf(),
+    hh: addDate4.format('HH'),
+    mm: addDate4.format('MM'),
+    ss: addDate4.format('SS'),
+    reason: data.reason,
+    type: data.type,
+    remark: JSON.stringify(data.remark)
+  })
 }
 
-const getTableData = data => {
-  const date = moment(new Date())
+const getTableData = () => {
   return db.table(tableName).toArray()
 }
 
-export default {
-  db,
-  tableName,
-  clearDb,
-  addTableData,
-  getTableData
-}
+export { createDb, clearDb, addTableData, getTableData }

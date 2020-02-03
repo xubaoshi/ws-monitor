@@ -1,15 +1,29 @@
 import * as React from 'react'
+import { Input, Tabs } from 'antd'
 import { clearDb, addTableData } from './utils/db'
+const Search = Input.Search
+const TabPane = Tabs.TabPane
+import Chart from './components/chart'
+import List from './components/list'
+import './styles/app.scss'
 export default class App extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
       ws: null,
-      ip: ''
+      ip: '',
+      currentTab: '0'
     }
   }
+  update() {
+    this.refs.list.update()
+    this.refs.chart.update()
+  }
   connect(url) {
-    url = 'ws://127.0.0.1:8080/'
+    // url = 'ws://127.0.0.1:8080/'
+    clearDb().then(() => {
+      this.update()
+    })
     const ws = new WebSocket(url)
     // readyState
     // 0：没有连接或正在连接
@@ -31,7 +45,6 @@ export default class App extends React.Component<any, any> {
     this.setState({
       ws
     })
-    clearDb()
   }
   wsOpen(event) {
     const { state } = this
@@ -74,6 +87,8 @@ export default class App extends React.Component<any, any> {
       reason,
       type: 'close',
       remark: event
+    }).then(() => {
+      this.update()
     })
   }
   wsError(event) {
@@ -83,6 +98,8 @@ export default class App extends React.Component<any, any> {
       reason: '',
       type: 'close',
       remark: event
+    }).then(() => {
+      this.update()
     })
   }
   handleSend() {
@@ -98,24 +115,44 @@ export default class App extends React.Component<any, any> {
       ip: event.target.value
     })
   }
+  handleTabChange(val) {
+    this.setState({
+      currentTab: val
+    })
+  }
   render() {
     const { state } = this
     return (
-      <div>
-        <input
-          type="text"
-          value={state.ip}
-          onChange={event => {
-            this.handleChange(event)
-          }}
-        />
-        <button
-          onClick={() => {
-            this.handleSend()
-          }}
-        >
-          连接
-        </button>
+      <div className="wrap">
+        <div className="search">
+          <Search
+            placeholder="请输入 ip"
+            enterButton="连接"
+            value={state.ip}
+            size="large"
+            onChange={event => {
+              this.handleChange(event)
+            }}
+            onSearch={() => {
+              this.handleSend()
+            }}
+          />
+        </div>
+        <div className="tab">
+          <Tabs
+            activeKey={state.currentTab}
+            onChange={val => {
+              this.handleTabChange(val)
+            }}
+          >
+            <TabPane tab="连接信息" key="0">
+              <List ref="list" />
+            </TabPane>
+            <TabPane tab="断连统计图表" key="1">
+              <Chart ref="chart" />
+            </TabPane>
+          </Tabs>
+        </div>
       </div>
     )
   }
