@@ -58,4 +58,4 @@ const getTableData = () => {
   return db.table(tableName).toArray()
 }
 
-export { createDb, clearDb, addTableData, getTableData }
+export { createDb, clearDb, addTableData, getTableData, db, tableName }
