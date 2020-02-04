@@ -22,7 +22,6 @@ export default class List extends React.Component<any, any> {
     this.setState({
       list: arr
     })
-    console.log(arr)
   }
   async update() {
     let arr = await getTableData()
@@ -46,13 +45,14 @@ export default class List extends React.Component<any, any> {
             dataIndex="dateTime"
             key="dateTime"
             render={data => {
-              return moment(data).format('YYYY-HH-DD HH:mm:ss')
+              return moment(data).format('YYYY-MM-DD HH:mm:ss')
             }}
           ></Column>
           } />
           <Column title="type" dataIndex="type" key="type" />
+          <Column title="code" dataIndex="code" key="code" />
           <Column title="reason" dataIndex="reason" key="reason" />
-          <Column title="remark" dataIndex="remark" key="remark" />
+          {/* <Column title="remark" dataIndex="remark" key="remark" /> */}
         </Table>
       </div>
     )

@@ -19,7 +19,7 @@ export default class Chart extends React.Component<any, any> {
         xAxis: [
           {
             type: 'category',
-            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+            data: []
           }
         ],
         yAxis: [
@@ -29,7 +29,7 @@ export default class Chart extends React.Component<any, any> {
         ],
         series: [
           {
-            name: '销量',
+            name: '数量',
             type: 'bar',
             data: [5, 20, 40, 10, 10, 20]
           }
@@ -108,7 +108,7 @@ export default class Chart extends React.Component<any, any> {
       dateX.push(preDate.format('YYYY-MM-DD'))
     }
     dateX = dateX.reverse()
-    const lastDate = moment(`${dateX[dateX.length - 1]} 00:00:00`).valueOf()
+    const lastDate = moment(`${dateX[0]} 00:00:00`).valueOf()
 
     db.table(tableName)
       .where('dateTime')
@@ -118,6 +118,7 @@ export default class Chart extends React.Component<any, any> {
         const sorted = this.groupBy(arr, function(item) {
           return item.date
         })
+        console.log(arr)
         newOption.xAxis[0].data = dateX
         dateX.forEach((item, index) => {
           newOption.series[0].data[index] = sorted[item]
@@ -141,8 +142,7 @@ export default class Chart extends React.Component<any, any> {
       dateX.push(preDate.format('YYYY-MM-DD'))
     }
     dateX = dateX.reverse()
-    const lastDate = moment(`${dateX[dateX.length - 1]} 00:00:00`).valueOf()
-
+    const lastDate = moment(`${dateX[0]} 00:00:00`).valueOf()
     db.table(tableName)
       .where('dateTime')
       .aboveOrEqual(lastDate)

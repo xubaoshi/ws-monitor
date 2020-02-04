@@ -28,9 +28,11 @@ const addTableData = data => {
     ss: date.format('SS'),
     reason: data.reason,
     type: data.type,
+    ip: data.ip,
+    code: data.code,
     remark: JSON.stringify([data.remark])
   })
-  const addDate = date.add(1, 'day')
+  const addDate = date.subtract(1, 'day')
   db[tableName].add({
     date: addDate.format('YYYY-MM-DD'),
     dateTime: addDate.valueOf(),
@@ -39,9 +41,23 @@ const addTableData = data => {
     ss: addDate.format('SS'),
     reason: data.reason,
     type: data.type,
+    ip: data.ip,
+    code: data.code,
     remark: JSON.stringify([data.remark])
   })
-  const addDate4 = date.add(4, 'day')
+  db[tableName].add({
+    date: addDate.format('YYYY-MM-DD'),
+    dateTime: addDate.valueOf(),
+    hh: addDate.format('HH'),
+    mm: addDate.format('MM'),
+    ss: addDate.format('SS'),
+    reason: data.reason,
+    type: data.type,
+    ip: data.ip,
+    code: data.code,
+    remark: JSON.stringify([data.remark])
+  })
+  const addDate4 = date.subtract(4, 'day')
   return db[tableName].add({
     date: addDate4.format('YYYY-MM-DD'),
     dateTime: addDate4.valueOf(),
@@ -50,6 +66,8 @@ const addTableData = data => {
     ss: addDate4.format('SS'),
     reason: data.reason,
     type: data.type,
+    ip: data.ip,
+    code: data.code,
     remark: JSON.stringify([data.remark])
   })
 }

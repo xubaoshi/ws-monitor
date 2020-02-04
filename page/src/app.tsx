@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Input, Tabs } from 'antd'
-import { clearDb, addTableData } from './utils/db'
+import { clearDb, addTableData, getTableData } from './utils/db'
 const Search = Input.Search
 const TabPane = Tabs.TabPane
 import Chart from './components/chart'
@@ -14,6 +14,14 @@ export default class App extends React.Component<any, any> {
       ip: '',
       currentTab: '0',
       lockReconnect: false
+    }
+  }
+  async componentDidMount() {
+    let arr = await getTableData()
+    if (arr && arr.length > 0) {
+      this.setState({
+        ip: arr[0].ip
+      })
     }
   }
   update() {
@@ -87,10 +95,12 @@ export default class App extends React.Component<any, any> {
     addTableData({
       reason,
       type: 'close',
-      remark: event
+      code: event.code,
+      remark: event,
+      ip: this.state.ip
     }).then(() => {
       this.update()
-      this.reconnect()
+      // this.reconnect()
     })
   }
   wsError(event) {
@@ -99,10 +109,12 @@ export default class App extends React.Component<any, any> {
     addTableData({
       reason: '',
       type: 'close',
-      remark: event
+      remark: event,
+      code: event.code,
+      ip: this.state.ip
     }).then(() => {
       this.update()
-      this.reconnect()
+      // this.reconnect()
     })
   }
   handleSend() {
