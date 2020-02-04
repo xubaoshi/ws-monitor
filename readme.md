@@ -11,7 +11,7 @@ page    断链统计端页面
 
 ```
 
-切换到 page server 目录下载对应依赖包
+切换到 page server 目录下载对应依赖包, 然后切换至根目录命令如下：
 
 npm run dev   ||  yarn run dev       开发环境
 npm run sever ||  yarn run server    开发环境 websocket 服务
