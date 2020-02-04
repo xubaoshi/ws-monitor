@@ -28,11 +28,13 @@ export default class App extends React.Component<any, any> {
     this.refs.list.update()
     this.refs.chart.update()
   }
-  connect(url) {
+  connect(url, isClearDb = false) {
     // url = 'ws://127.0.0.1:8080/'
-    clearDb().then(() => {
-      this.update()
-    })
+    if (isClearDb) {
+      clearDb().then(() => {
+        this.update()
+      })
+    }
     const ws = new WebSocket(url)
     // readyState
     // 0：没有连接或正在连接
@@ -100,7 +102,7 @@ export default class App extends React.Component<any, any> {
       ip: this.state.ip
     }).then(() => {
       this.update()
-      // this.reconnect()
+      this.reconnect()
     })
   }
   wsError(event) {
@@ -114,7 +116,7 @@ export default class App extends React.Component<any, any> {
       ip: this.state.ip
     }).then(() => {
       this.update()
-      // this.reconnect()
+      this.reconnect()
     })
   }
   handleSend() {
@@ -123,7 +125,7 @@ export default class App extends React.Component<any, any> {
       return
     }
     state.ws && state.ws.close()
-    this.connect(state.ip)
+    this.connect(state.ip, true)
   }
   handleChange(event) {
     this.setState({
@@ -143,7 +145,7 @@ export default class App extends React.Component<any, any> {
     })
     setTimeout(() => {
       // 没连接上会一直重连，设置延迟避免请求过多
-      this.connect(ip)
+      this.connect(ip, false)
       this.setState({
         lockReconnect: false
       })
