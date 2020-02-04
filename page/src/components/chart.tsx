@@ -118,7 +118,6 @@ export default class Chart extends React.Component<any, any> {
         const sorted = this.groupBy(arr, function(item) {
           return item.date
         })
-        console.log(arr)
         newOption.xAxis[0].data = dateX
         dateX.forEach((item, index) => {
           newOption.series[0].data[index] = sorted[item]
