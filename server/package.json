@@ -7,6 +7,6 @@
   "author": "xubaoshi <948869516@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "ws": "^7.2.1"
+    "ws": "^7.4.6"
   }
 }
